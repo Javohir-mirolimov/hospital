@@ -20,13 +20,13 @@ class EmployeeAdmin(UserAdmin):
 
 
 
-admin.site.register(Employee)
-admin.site.register(Revenue)
-admin.site.register(Payment)
-admin.site.register(Testimonial_patient)
-admin.site.register(Room)
-admin.site.register(Patient)
-admin.site.register(About_hospital)
-admin.site.register(Department)
-admin.site.register(Operation)
-admin.site.register(Equipment)
+admin.site.register(models.Employee)
+admin.site.register(models.Revenue)
+admin.site.register(models.Payment)
+admin.site.register(models.Testimonial_patient)
+admin.site.register(models.Room)
+admin.site.register(models.Patient)
+admin.site.register(models.About_hospital)
+admin.site.register(models.Department)
+admin.site.register(models.Operation)
+admin.site.register(models.Equipment)

@@ -13,21 +13,21 @@ from django.core.validators import FileExtensionValidator
 
 
 class User(AbstractUser):
-    avatar = models.ImageField( validators=[(ImageFileValidator)], upload_to='avatar_photo')
-    phone_number = models.CharField(max_length=13, unique=True, validators=[
+    avatar = models.ImageField( validators=[(ImageFileValidator)],  verbose_name='hodim_rasmi', upload_to='avatar_photo', null=True, blank=True)
+    phone_number = models.CharField(max_length=13,  verbose_name='telefon raqam', unique=True,  validators=[
         RegexValidator(
             regex='^[\+]9{2}8{1}[0-9]{9}$',
             message='Invalid phone number',
             code='invalid_number'
         ), ])
-    age = models.IntegerField()
-    password_series = models.CharField(max_length=255)
+    age = models.IntegerField( verbose_name='yosh', null=True, blank=True)
+    password_series = models.CharField(max_length=255, null=True, blank=True)
     GENDER_CHOICES = (
         ('male', 'male'),
         ('female', 'female')
     )
-    gender = models.CharField(max_length=25, choices=GENDER_CHOICES)
-    address = models.CharField(max_length=255)
+    gender = models.CharField(max_length=25, verbose_name='jinsi', choices=GENDER_CHOICES, null=True, blank=True)
+    address = models.CharField(max_length=255,  verbose_name='manzil', null=True, blank=True)
     def __str__(self):
         return self.username
 
@@ -40,7 +40,7 @@ class User(AbstractUser):
 
 
 class Employee(models.Model):
-    user = models.ForeignKey(to='User', on_delete=models.CASCADE)
+    user = models.ForeignKey(to='User', verbose_name='foydalanuvchi', on_delete=models.CASCADE)
     STARUS_CHOICES = (
         ('director', 'direcotor'),
         ('admin', 'admin'),
@@ -49,37 +49,36 @@ class Employee(models.Model):
         ('doctor', 'doctor'),
         ('nurse', 'nurse'),
     )
-    status = models.CharField(max_length=25, choices=STARUS_CHOICES)
-    experience = models.IntegerField()
-    specialty = models.CharField(max_length=55)
-    bio = models.TextField()
-    salary = models.DecimalField(max_digits=10, decimal_places=2)
-    start_time = models.TimeField()
-    end_time = models.TimeField()
-    department = models.ForeignKey(to='Department', on_delete=models.PROTECT)
-    room = models.ForeignKey(to='Room', on_delete=models.PROTECT)
-    create_at = models.DateField(auto_now=True)
+    status = models.CharField(max_length=25, verbose_name='lavozimi',  choices=STARUS_CHOICES)
+    experience = models.IntegerField(verbose_name='tajribasi')
+    bio = models.TextField(verbose_name="o'zi haqida ma'lumot")
+    salary = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='oylik')
+    start_time = models.TimeField(verbose_name='ish boshlash vaqti')
+    end_time = models.TimeField(verbose_name='ish tugatish vaqti')
+    department = models.ForeignKey(to='Department',  verbose_name="bo'lim" ,on_delete=models.PROTECT)
+    room = models.ForeignKey(to='Room', verbose_name='xona' ,on_delete=models.PROTECT)
+    create_at = models.DateField(auto_now=True , verbose_name='yaratilgan vaqt')
 
     def __str__(self):
         return self.user.username
 
 
 class Revenue(models.Model):
-    reason = models.CharField(max_length=255)
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
-    create_at = models.DateField(auto_now=True)
+    reason = models.CharField(max_length=255, verbose_name='sabab')
+    amount = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='pul')
+    create_at = models.DateField(auto_now=True, verbose_name='yaratilgan vaqt')
 
 
 class Payment(models.Model):
-    payer = models.ForeignKey(to='Patient', on_delete=models.CASCADE)
-    receiver = models.ForeignKey(to='Employee', on_delete=models.CASCADE)
+    payer = models.ForeignKey(to='Patient', verbose_name='bemor', on_delete=models.CASCADE)
+    receiver = models.ForeignKey(to='Employee', verbose_name='shifokor', on_delete=models.CASCADE)
     PAYMENT_TYPE_CHOICES = (
         ('full paid', 'full paid'),
         ('part paid', 'part paid'),
         ('unpaid', 'unpaid'),
     )
-    payment_type = models.CharField(max_length=25, choices=PAYMENT_TYPE_CHOICES)
-    create_at = models.DateField(auto_now=True)
+    payment_type = models.CharField(max_length=25,  verbose_name='tolov turi',choices=PAYMENT_TYPE_CHOICES)
+    create_at = models.DateField(auto_now=True, verbose_name='yaratishgan vaqt')
     # def save(self, *args, **kwargs):
     #     qr = qrcode.QRCode(
     #         version=1,
@@ -100,37 +99,39 @@ class Payment(models.Model):
 
 
 class Testimonial_patient(models.Model):
-    patient = models.ForeignKey(to='Patient', on_delete=models.CASCADE)
+    patient = models.ForeignKey(to='Patient', verbose_name='bemor', on_delete=models.CASCADE)
     TYPE_CHOICES = (
         ('offer', 'offer'),
         ('complaint', 'complaint'),
         ('testimonial', 'testimonial'),
     )
-    type_testimonial = models.CharField(max_length=25, choices=TYPE_CHOICES)
-    text = models.TextField()
-    create_at = models.DateField(auto_now=True)
+    type_testimonial = models.CharField(max_length=25, verbose_name='izoh turi', choices=TYPE_CHOICES)
+    text = models.TextField(verbose_name='izoh')
+    create_at = models.DateField(auto_now=True, verbose_name='yaratilgan vaqt')
 
     def __str__(self):
         return self.patient.fullname
 
 
 class Room(models.Model):
-    name = models.CharField(max_length=25)
-    capacity = models.IntegerField()
+    name = models.CharField(max_length=25, verbose_name='nomi')
+    capacity = models.IntegerField(verbose_name='sigimi')
     STATUS_CHOICES = (
         ('lux', 'lux'),
         ('econom', 'econom'),
         ('other', 'ther'),
     )
     status = models.CharField(max_length=24, choices=STATUS_CHOICES)
+    booked_room = models.BooleanField(default=False, verbose_name=' xona bosh va banligi')
+
 
     CAPACITY_STATUS_CHOICES = (
         ('fre', 'free'),
         ('booked', 'booked'),
     )
-    capacity_status = models.CharField(max_length=25, choices=CAPACITY_STATUS_CHOICES)
-    department = models.ForeignKey(to='Department', on_delete=models.PROTECT)
-    other_info = models.TextField()
+    capacity_status = models.CharField(max_length=25, verbose_name='capacity_status', choices=CAPACITY_STATUS_CHOICES)
+    department = models.ForeignKey(to='Department',  verbose_name='bolim', on_delete=models.PROTECT)
+    other_info = models.TextField(verbose_name='malomot')
 
     def __str__(self):
         return self.name
@@ -161,8 +162,7 @@ class Patient(models.Model):
     )
     type_payment = models.CharField(max_length=25, choices=TYPE_PAYMENT_CHOICES)
     room = models.ForeignKey(to='Room', on_delete=models.SET_NULL, null=True)
-    booked_room = models.BooleanField(default=False)
-    create_at = models.DateField(auto_now=True)
+    create_at = models.DateField(auto_now=True, verbose_name='yaratilgan vaqt')
 
     def __str__(self):
         return self.fullname
@@ -170,15 +170,15 @@ class Patient(models.Model):
 
 
 class About_hospital(models.Model):
-    name = models.CharField(max_length=55)
-    address = models.CharField(max_length=55)
-    email = models.EmailField(validators=[(EmailValidator)])
-    number_doctor = models.IntegerField()
-    happy_patient = models.IntegerField()
-    reting = models.FloatField(default=0)
-    open_data = models.DateField()
-    desctiption = models.CharField(max_length=255)
-    motto = models.CharField(max_length=55)
+    name = models.CharField(max_length=55, verbose_name='nomi')
+    address = models.CharField(max_length=55, verbose_name='manzil')
+    email = models.EmailField(validators=[(EmailValidator)], verbose_name='elektiron manzil')
+    number_doctor = models.IntegerField(verbose_name='shifokor soni')
+    happy_patient = models.IntegerField(verbose_name='hursand bemor')
+    reting = models.FloatField(default=0, verbose_name='reting')
+    open_data = models.DateField(verbose_name='ochilgan vqat')
+    desctiption = models.CharField(max_length=255, verbose_name='tarif')
+    motto = models.CharField(max_length=55, verbose_name='shiyor')
 
     def __str__(self):
         return self.name
@@ -187,7 +187,7 @@ class About_hospital(models.Model):
 
 
 class Department(models.Model):
-    name = models.CharField(max_length=25)
+    name = models.CharField(max_length=25, verbose_name='nomi')
 
 
     def __str__(self):
@@ -195,12 +195,12 @@ class Department(models.Model):
 
 
 class Operation(models.Model):
-    doctors = models.ManyToManyField(to='Employee')
-    start_time = models.DateField()
-    end_time = models.DateField()
-    patient = models.ForeignKey(to='Patient', on_delete=models.CASCADE)
-    room = models.ForeignKey(to='Room', on_delete=models.SET_NULL, null=True)
-    create_at = models.DateField(auto_now=True)
+    doctors = models.ManyToManyField(to='Employee', verbose_name='xodim')
+    start_time = models.DateField(verbose_name='aperatsi boshlanosh vaqti ')
+    end_time = models.DateField(verbose_name='aperatsi tugash vaqti ')
+    patient = models.ForeignKey(to='Patient', verbose_name= 'bemor', on_delete=models.CASCADE)
+    room = models.ForeignKey(to='Room', on_delete=models.SET_NULL,  verbose_name='xona',null=True)
+    create_at = models.DateField(auto_now=True, verbose_name='yaratilgan b-vaqt')
 
     def __str__(self):
         return self.patient.fullname
@@ -209,15 +209,15 @@ class Operation(models.Model):
 
 
 class Equipment(models.Model):
-    name = models.CharField(max_length=55)
-    rooms = models.ManyToManyField(to='Room')
-    number = models.IntegerField()
-    extra_info = models.TextField()
+    name = models.CharField(max_length=55, verbose_name='ism')
+    rooms = models.ManyToManyField(to='Room', verbose_name='xona')
+    number = models.IntegerField(verbose_name='soni')
+    extra_info = models.TextField(verbose_name='malumot')
 
     def __str__(self):
         return self.name
 
 class Casse(models.Model):
-    total_amount = models.DecimalField(max_digits=10, decimal_places=2)
+    total_amount = models.DecimalField(max_digits=10, verbose_name='pul', decimal_places=2)
 
 
