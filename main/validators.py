@@ -29,4 +29,17 @@ class LinkValidator(RegexValidator):
 
 
 
+class AudioFilevalodator(FileExtensionValidator):
+    def __int__(self, allowed_extensions=None, message=None):
+        self.allowed_extensions = allowed_extensions or ['mp3', 'wav', 'ogg', 'flac']
+        self.message = message or 'File must be an audio file with a valid extension'
+        super().__int__(allowed_extensions=self.allowed_extensions, message=self.message)
+
+
+    def __call__(self, value):
+        # Example: Using a regular expression to check the file name
+        match = re.search(r'\.([a-zA-Z0-9]+)$', str(value))
+        if not match or match.group(1).lower() not in self.allowed_extensions:
+            raise ValidationError(self.message , code='invalid')
+
 
