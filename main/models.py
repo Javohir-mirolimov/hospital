@@ -31,13 +31,10 @@ class User(AbstractUser):
     def __str__(self):
         return self.username
 
-
     class Meta(AbstractUser.Meta):
         swappable  = 'AUTH_USER_MODEL'
         verbose_name = 'User'
         verbose_name_plural = 'Users'
-
-
 
 class Employee(models.Model):
     user = models.ForeignKey(to='User', verbose_name='foydalanuvchi', on_delete=models.CASCADE)
@@ -217,7 +214,7 @@ class Equipment(models.Model):
     def __str__(self):
         return self.name
 
-class Casse(models.Model):
+class Cassa(models.Model):
     total_amount = models.DecimalField(max_digits=10, verbose_name='pul', decimal_places=2)
 
 
