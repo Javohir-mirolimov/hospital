@@ -218,3 +218,7 @@ class Cassa(models.Model):
     total_amount = models.DecimalField(max_digits=10, verbose_name='pul', decimal_places=2)
 
 
+
+
+
+
