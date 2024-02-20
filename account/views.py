@@ -50,27 +50,23 @@ def signin_view(request):
 def singup_view(request):
     username = request.POST.get('username')
     password = request.POST.get('password')
-    phone_number = request.POST.get('phone_number')
-    avatar = request.FILES.get('avatar')
+    avatar = request.POST.get('avatar')
+    phone_number= request.FILES.get('phone_number')
     age = region.POST.get('age')
-    state = region.POST.get('state')
-    region = region.POST.get('region')
-    addres_street = region.POST.get('addres_street')
-    sex = region.POST.get('sex')
-    nationality = region.POST.get('nationality')
     password_series = region.POST.get('password_series')
-    status = region.POST.get('status')
+    gender = region.POST.get('gender')
+    address = region.POST.get('address')
+
     new = User.objects.create_user(
         username=username,
         password=password,
-        phone_number=phone_number,
-        age = age,
-        state=state,
-        region =region,
-        sex =sex,
-        nationality =nationality,
-        password_series =password_series,
-        status = status,
+        avatar=avatar,
+        phone_number = phone_number,
+        age=age,
+        password_series=password_series,
+        gender =gender,
+        address=address,
+
     )
     ser = UserSerializres(new)
     return Response(ser.data)
@@ -88,53 +84,34 @@ def edit_user_view(request, pk):
     try:
         user = User.objects.get(pk=pk)
         try:
-            username = request.data.get('username')
-            first_name = request.data.get('first_name')
-            last_name = request.data.get('last_name')
-            email = request.data.get('email')
-            address = request.data.get('address')
-            phone_number = request.data.get('phone_number')
-            password = request.data.get('password')
-            age = region.data.get('age')
-            state = region.data.get('state')
-            region = region.data.get('region')
-            addres_street = region.data.get('addres_street')
-            sex = region.data.get('sex')
-            nationality = region.data.get('nationality')
-            password_series = region.data.get('password_series')
-            status = region.data.get('status')
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+            avatar = request.POST.get('avatar')
+            phone_number = request.FILES.get('phone_number')
+            age = region.POST.get('age')
+            password_series = region.POST.get('password_series')
+            gender = region.POST.get('gender')
+            address = region.POST.get('address')
             if username is not None:
                 user.username = username
-            if first_name is not None:
-                user.first_name = first_name
-            if last_name is not None:
-                user.last_name = last_name
-            if email is not None:
-                user.email = email
-            if address is not None:
-                user.address_id = address
-            if phone_number is not None:
-                user.phone_number = phone_number
             if password is not None:
                 user.set_password(password)
+            if avatar is not None:
+                user.avatar = avatar
+            if phone_number is not None:
+                user.phone_number = phone_number
             if age is not None:
                 user.age = age
-            if state is not None:
-                user.state = state
-            if region is not None:
-                user.region = region
-            if addres_street is not None:
-                user.addres_street = addres_street
-            if sex is not None:
-                user.sex = sex
-            if nationality is not None:
-                user.nationality = nationality
-            if password_series is not  None:
+            if password_series is not None:
                 user.password_series = password_series
-            if status is not None:
-                user.status = status
+            if gender is not None:
+                user.gender = gender
+            if address is not None:
+                user.address_id = address
+
+
             user.save()
-            ser = UserSerializer(user)
+            ser = UserSerializers(user)
             return Response(ser.data)
         except:
             status = 404
