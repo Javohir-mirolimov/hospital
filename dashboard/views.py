@@ -224,5 +224,29 @@ class CreateCassa(ListCreateAPIView):
 
 #<<<<<<<<<<<<<<<<<End Crud Cassa>>>>>>>>>>>>>>>
 
+#<<<<<<<<<<<<<<<<Start Crud Attendance>>>>>>>>>>
+class GetAttendance(ListAPIView):
+    queryset = Attendance.objects.all()
+    serializer_class = AttendanceSerializers
+
+
+class CreateAttendance(ListCreateAPIView):
+    queryset = Attendance.objects.all()
+    serializer_class = AttendanceSerializers
+
+
+class UpdateAttendance(UpdateAPIView):
+    queryset = Attendance.objects.all()
+    serializer_class = AttendanceSerializers
+
+
+class DeleteAttendance(DestroyAPIView):
+    queryset = Attendance.objects.all()
+    serializer_class = AttendanceSerializers
+
+
+
+#<<<<<<<<<<<<<<<<End Crud Attendance>>>>>>>>>>>
+
 """ End Crud Model """
 

@@ -55,6 +55,12 @@ urlpatterns=[
     #-------------------Start Crud Cassa Model----------------------
     path('get-cassa/', GetCassa.as_view()),
     path('create-cassa/', CreateCassa.as_view()),
+    #-------------------Start Crud Attendance Model------------------
+    path('get-ettendance/', GetAttendance.as_view()),
+    path('create-ettendance/', CreateAttendance.as_view()),
+    path('update-ettendance/<int:pk>/', UpdateAttendance.as_view()),
+    path('delete-ettendance/int:pk>/', DeleteAttendance.as_view()),
+
 
 
 
