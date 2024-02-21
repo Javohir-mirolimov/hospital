@@ -219,6 +219,28 @@ class Cassa(models.Model):
 
 
 
+class Attendance(models.Model):
+    employee = models.ForeignKey(to='Employee', on_delete=models.CASCADE)
+    date = models.DateField(auto_now=True)
+    check_in = models.DateField(null=True, blank=True)
+    check_out = models.DateField(null=True, blank=True)
+
+    class Meta:
+        unique_together = ['employee', 'date']
+
+    def clean(self):
+        if self.check_out and self.check_out < self.check_in:
+            raise ValidationError("Check-out time must be after check-in time.")
+
+
+    def __str__(self):
+        return f"{self.employee.username} - {self.date}"
+
+
+
+
+
+
 
 
 
