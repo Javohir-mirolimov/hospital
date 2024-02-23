@@ -28,6 +28,12 @@ class User(AbstractUser):
     )
     gender = models.CharField(max_length=25, verbose_name='jinsi', choices=GENDER_CHOICES, null=True, blank=True)
     address = models.CharField(max_length=255,  verbose_name='manzil', null=True, blank=True)
+    slug = models.SlugField(max_length=40, unique=True, blank=False)
+
+    def save_fulname(self, *args, **kwargs):
+        self.username = self.slug + "_" + self.fullname
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return self.username
 
