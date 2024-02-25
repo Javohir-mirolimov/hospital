@@ -10,6 +10,7 @@ class UserSerializers(serializers.ModelSerializer):
 
 class EmployeeSerializers(serializers.ModelSerializer):
     class Meta:
+        depth = 2
         model = Employee
         fields = "__all__"
 
@@ -20,21 +21,25 @@ class RevenueSerializers(serializers.ModelSerializer):
 
 class PaymentSerializers(serializers.ModelSerializer):
     class Meta:
+        depth = 3
         model = Payment
         fields = "__all__"
 
 class Testimonial_patientSerializers(serializers.ModelSerializer):
     class Meta:
+        depth = 1
         model = Testimonial_patient
         fields = "__all__"
 
 class RoomSerializers(serializers.ModelSerializer):
     class Meta:
+        depth = 1
         model = Room
         fields = "__all__"
 
 class PatientSerializers(serializers.ModelSerializer):
     class Meta:
+        depth = 1
         model = Patient
         fields = "__all__"
 
@@ -50,6 +55,7 @@ class DepartmentSerializers(serializers.ModelSerializer):
 
 class OperationSerializers(serializers.ModelSerializer):
     class Meta:
+        depth = 3
         model = Operation
         fields = "__all__"
 
@@ -67,6 +73,7 @@ class CassaSerializers(serializers.ModelSerializer):
 
 class AttendanceSerializers(serializers.ModelSerializer):
     class Meta:
+        depth = 1
         model = Attendance
         fields = "__all__"
 
