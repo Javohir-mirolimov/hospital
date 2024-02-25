@@ -128,13 +128,6 @@ class Room(models.Model):
     )
     status = models.CharField(max_length=24, choices=STATUS_CHOICES)
     booked_room = models.BooleanField(default=False, verbose_name=' xona bosh va banligi')
-
-
-    CAPACITY_STATUS_CHOICES = (
-        ('fre', 'free'),
-        ('booked', 'booked'),
-    )
-    capacity_status = models.CharField(max_length=25, verbose_name='capacity_status', choices=CAPACITY_STATUS_CHOICES)
     department = models.ForeignKey(to='Department',  verbose_name='bolim', on_delete=models.PROTECT)
     other_info = models.TextField(verbose_name='malomot')
 
@@ -161,9 +154,9 @@ class Patient(models.Model):
     )
     gender = models.CharField(max_length=25, choices=GENDER_CHOICES)
     TYPE_PAYMENT_CHOICES = (
-        ('offer', 'offer'),
-        ('complaint', 'complaint'),
-        ('testimonial', 'testimonial'),
+        ('full paid', 'full paid'),
+        ('part paid', 'part paid'),
+        ('unpaid', 'unpaid'),
     )
     type_payment = models.CharField(max_length=25, choices=TYPE_PAYMENT_CHOICES)
     room = models.ForeignKey(to='Room', on_delete=models.SET_NULL, null=True)
@@ -201,8 +194,9 @@ class Department(models.Model):
 
 class Operation(models.Model):
     doctors = models.ManyToManyField(to='Employee', verbose_name='xodim')
-    start_time = models.DateField(verbose_name='aperatsi boshlanosh vaqti ')
-    end_time = models.DateField(verbose_name='aperatsi tugash vaqti ')
+    date_time = models.DateField(verbose_name="boshlanadigan kun")
+    start_time = models.TimeField(verbose_name='aperatsi boshlanosh vaqti ')
+    end_time = models.TimeField(verbose_name='aperatsi tugash vaqti ')
     patient = models.ForeignKey(to='Patient', verbose_name= 'bemor', on_delete=models.CASCADE)
     room = models.ForeignKey(to='Room', on_delete=models.SET_NULL,  verbose_name='xona',null=True)
     create_at = models.DateField(auto_now=True, verbose_name='yaratilgan b-vaqt')

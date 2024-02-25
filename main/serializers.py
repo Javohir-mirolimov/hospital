@@ -33,7 +33,7 @@ class Testimonial_patientSerializers(serializers.ModelSerializer):
 
 class RoomSerializers(serializers.ModelSerializer):
     class Meta:
-        depth = 1
+        depth = 2
         model = Room
         fields = "__all__"
 
