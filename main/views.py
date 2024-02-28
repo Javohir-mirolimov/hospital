@@ -228,6 +228,7 @@ def filter_ravenue_by_create_at(request):
     return Response(ser.data)
 
 #<<<<<<<<<<<<<<<<<End Ravenue Filter>>>>>>>>>>>>>>>>>>>>>>>
+
 #<<<<<<<<<<<<<<<<<Start Operation Filter>>>>>>>>>>>>>>>>>>>
 @api_view(['GET'])
 def filter_operation_by_employee(request):
@@ -312,4 +313,6 @@ def filter_attendance_by_date(request):
     ser = AttendanceSerializers(attendance, many=True)
     return Response(ser.data)
 #<<<<<<<<<<<<<<<<<<End Attendance Filter>>>>>>>>>>>>>>>>>
+
+
 """ End Filter Model """

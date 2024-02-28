@@ -44,6 +44,7 @@ class User(AbstractUser):
         verbose_name = 'User'
         verbose_name_plural = 'Users'
 
+
 class Employee(models.Model):
     user = models.ForeignKey(to='User', verbose_name='foydalanuvchi', on_delete=models.CASCADE)
     STARUS_CHOICES = (
@@ -166,7 +167,6 @@ class Patient(models.Model):
         return self.fullname
 
 
-
 class About_hospital(models.Model):
     name = models.CharField(max_length=55, verbose_name='nomi')
     address = models.CharField(max_length=55, verbose_name='manzil')
@@ -182,15 +182,11 @@ class About_hospital(models.Model):
         return self.name
 
 
-
-
 class Department(models.Model):
     name = models.CharField(max_length=25, verbose_name='nomi')
 
-
     def __str__(self):
         return self.name
-
 
 class Operation(models.Model):
     doctors = models.ManyToManyField(to='Employee', verbose_name='xodim')
@@ -203,8 +199,6 @@ class Operation(models.Model):
 
     def __str__(self):
         return self.patient.fullname
-
-
 
 
 class Equipment(models.Model):
@@ -237,12 +231,3 @@ class Attendance(models.Model):
 
     def __str__(self):
         return f"{self.employee.username} - {self.date}"
-
-
-
-
-
-
-
-
-
