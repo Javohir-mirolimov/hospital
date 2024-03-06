@@ -16,7 +16,7 @@ class User(AbstractUser):
     avatar = models.ImageField( validators=[(ImageFileValidator)],  verbose_name='hodim_rasmi', upload_to='avatar_photo', null=True, blank=True)
     phone_number = models.CharField(max_length=13,  verbose_name='telefon raqam', unique=True,  validators=[
         RegexValidator(
-            regex='^[\+]9{2}8{1}[0-9]{9}$',
+            regex=r'^[\+]9{2}8{1}[0-9]{9}$',
             message='Invalid phone number',
             code='invalid_number'
         ), ])
@@ -142,7 +142,7 @@ class Patient(models.Model):
     address = models.CharField(max_length=55)
     phone_number = models.CharField(max_length=13, unique=True, validators=[
         RegexValidator(
-            regex='^[\+]9{2}8{1}[0-9]{9}$',
+            regex=r'^[\+]9{2}8{1}[0-9]{9}$',
             message='Invalid phone number',
             code='invalid_number'
         ), ])

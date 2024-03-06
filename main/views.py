@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from datetime import time
+from datetime import datetime
 
 from .models import *
 from .serializers import *
@@ -23,7 +23,6 @@ def filter_employee_by_status(request):
     status = request.GET.get('status')
     employee = Employee.objects.filter(status__icontains=status)
     ser = EmployeeSerializers(employee, many=True)
-
     return Response(ser.data)
 
 
@@ -312,6 +311,7 @@ def filter_attendance_by_date(request):
     attendance = Attendance.objects.filter(date=date)
     ser = AttendanceSerializers(attendance, many=True)
     return Response(ser.data)
+
 #<<<<<<<<<<<<<<<<<<End Attendance Filter>>>>>>>>>>>>>>>>>
 
 
